@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shift_selection_mobile_app/controller/controller.dart';
 import 'package:shift_selection_mobile_app/views/schedule_screen.dart'; 
@@ -37,69 +38,90 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.cyan.shade600,
       ),
-      body: ListView.builder(
-        itemCount: controller.days.length,
-        itemBuilder: (BuildContext context, int dayIndex) {
-          return Container(
-            child: Card(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.cyan.shade50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+      body: Column(
+        children: [
+          Card(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.cyan.shade50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          value: dayCheckboxes[dayIndex],
-                          onChanged: anyShiftSelected[dayIndex]
-                              ? (bool? value) {
-                                  setState(() {
-                                    dayCheckboxes[dayIndex] = value!;
-                                  });
-                                }
-                              : null,
-                        ),
-                        Text(controller.days[dayIndex]),
+                        Text("Days", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                        SizedBox(width: 130,),
+                       Text("Shifts", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
                       ],
                     ),
-                    Row(
-                      children: List.generate(
-                        controller.shift.length,
-                        (shiftIndex) => GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              shiftColors[dayIndex][shiftIndex] =
-                                  !shiftColors[dayIndex][shiftIndex];
-                              anyShiftSelected[dayIndex] =
-                                  shiftColors[dayIndex].contains(true);
-                            });
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 8),
-                            margin: EdgeInsets.only(left: 5),
-                            decoration: BoxDecoration(
-                              color: shiftColors[dayIndex][shiftIndex]
-                                  ? Colors.blue
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(controller.shift[shiftIndex]),
+                  ),
+                ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: controller.days.length,
+              itemBuilder: (BuildContext context, int dayIndex) {
+                return Container(
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      color: Colors.cyan.shade50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: dayCheckboxes[dayIndex],
+                                onChanged: anyShiftSelected[dayIndex]
+                                    ? (bool? value) {
+                                        setState(() {
+                                          dayCheckboxes[dayIndex] = value!;
+                                        });
+                                      }
+                                    : null,
+                              ),
+                              Text(controller.days[dayIndex]),
+                            ],
                           ),
-                        ),
+                          Row(
+                            children: List.generate(
+                              controller.shift.length,
+                              (shiftIndex) => GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    shiftColors[dayIndex][shiftIndex] =
+                                        !shiftColors[dayIndex][shiftIndex];
+                                    anyShiftSelected[dayIndex] =
+                                        shiftColors[dayIndex].contains(true);
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 8),
+                                  margin: EdgeInsets.only(left: 5),
+                                  decoration: BoxDecoration(
+                                    color: shiftColors[dayIndex][shiftIndex]
+                                        ? Colors.blue
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(controller.shift[shiftIndex]),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.cyan.shade700,
         onPressed: () {
+          Get.snackbar("Successfull", "Shifts Addded");
           addToSchedule();
           Get.to(() => SchedulePage());
         },
@@ -112,15 +134,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
   void addToSchedule() {
-    for (int i = 0; i < dayCheckboxes.length; i++) {
-      if (dayCheckboxes[i]) {
-        for (int j = 0; j < shiftColors[i].length; j++) {
-          if (shiftColors[i][j]) {
-            controller.addToSchedule(controller.days[i], controller.shift[j]);
-          }
+  for (int i = 0; i < dayCheckboxes.length; i++) {
+    if (dayCheckboxes[i]) {
+      for (int j = 0; j < shiftColors[i].length; j++) {
+        if (shiftColors[i][j]) {
+          controller.addToSchedule(controller.days[i], controller.shift[j]);
         }
       }
     }
   }
+}
 }
