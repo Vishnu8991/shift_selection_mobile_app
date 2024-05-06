@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shift_selection_mobile_app/controller/controller.dart';
-import 'package:shift_selection_mobile_app/views/schedule_screen.dart'; // Import SchedulePage
+import 'package:shift_selection_mobile_app/views/schedule_screen.dart'; 
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.cyan.shade700,
         onPressed: () {
           addToSchedule();
-          Get.to(() => SchedulePage()); // Navigate to SchedulePage
+          Get.to(() => SchedulePage());
         },
         label: Text(
           "Schedule",

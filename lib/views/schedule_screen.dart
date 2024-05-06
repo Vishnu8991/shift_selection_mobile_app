@@ -24,7 +24,6 @@ class SchedulePage extends StatelessWidget {
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Day",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                // SizedBox(width: 40,),
                 Text("Shift",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ],
             ),),
@@ -36,15 +35,12 @@ class SchedulePage extends StatelessWidget {
                 final List<Map<String, String>> scheduleShift =
                     Get.find<Controller>().scheduleShift.toList();
               
-                // Map to store selected shifts for each day
                 Map<String, List<String>> selectedShiftsByDay = {};
               
-                // Group selected shifts by day
                 scheduleShift.forEach((shift) {
                   String day = shift["day"]!;
                   String selectedShift = shift["shift"]!;
                   if (selectedShiftsByDay.containsKey(day)) {
-                    // Check if the selected shift for the day is not already added
                     if (!selectedShiftsByDay[day]!.contains(selectedShift)) {
                       selectedShiftsByDay[day]!.add(selectedShift);
                     }
