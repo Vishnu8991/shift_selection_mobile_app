@@ -59,9 +59,10 @@ class _HomePageState extends State<HomePage> {
               itemCount: controller.days.length,
               itemBuilder: (BuildContext context, int dayIndex) {
                 return Container(
+                  width: double.infinity,
                   child: Card(
                     child: Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(4),
                       color: Colors.cyan.shade50,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +122,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.cyan.shade700,
         onPressed: () {
-          Get.snackbar("Successfull", "Shifts Addded");
           addToSchedule();
           Get.to(() => SchedulePage());
         },
@@ -136,14 +136,15 @@ class _HomePageState extends State<HomePage> {
 
 
   void addToSchedule() {
-  for (int i = 0; i < dayCheckboxes.length; i++) {
-    if (dayCheckboxes[i]) {
-      for (int j = 0; j < shiftColors[i].length; j++) {
-        if (shiftColors[i][j]) {
-          controller.addToSchedule(controller.days[i], controller.shift[j]);
+    controller.clearSchedule(); 
+    for (int i = 0; i < dayCheckboxes.length; i++) {
+      if (dayCheckboxes[i]) {
+        for (int j = 0; j < shiftColors[i].length; j++) {
+          if (shiftColors[i][j]) {
+            controller.addToSchedule(controller.days[i], controller.shift[j]);
+          }
         }
       }
     }
   }
-}
 }

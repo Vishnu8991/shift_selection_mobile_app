@@ -27,4 +27,8 @@ class Controller {
       scheduleShift.add({"day": day, "shift": shift});
     }
   }
+
+  void clearSchedule() {
+    scheduleShift.clear();
+  }
 }
